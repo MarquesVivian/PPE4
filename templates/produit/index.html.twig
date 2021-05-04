@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produit index{% endblock %}
+
+
+
+{% block body %}
+    {% block stylesheets  %} <link rel="stylesheet" href="{{ asset('CSS/style_produit.css') }}">{% endblock %}
+
+    <h1>Produit index</h1>
+
+<div class="row galerie">
+    {% for produit in produits %}
+        <a class="produits" href="{{ path('produit_show', {'id': produit.id}) }}">
+            <div class="card" style="width: 13rem;">
+                <img class="card-img-top produit_image" src="{{ produit.image }}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{ produit.libelle }}</h5>
+                    <p class="card-text" id="test">{{ produit.desciption }}</p>
+                    <div class="row">
+                    <a href="{{ path('produit_show', {'id': produit.id}) }}" class="btn btn-primary text-center ">voire</a>
+                        <form action="{{ path('AjoutLigneDuPagnier',{'id':produit.id}) }}" method="post">
+                            <input type="hidden" name="token" value="{{ csrf_token("ajoutLigneDuPagnier") }}">
+                            <input type="submit" value="Ajouter">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+    {% else %}
+        <tr>
+            <td colspan="6">no records found</td>
+        </tr>
+    {% endfor %}
+</div>
+
+    <a href="{{ path('produit_new') }}">Create new</a>
+{% endblock %}

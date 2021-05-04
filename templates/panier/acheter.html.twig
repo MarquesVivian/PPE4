@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier{% endblock %}
+
+{% block body %}
+    <h1>Recap du panier</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Tarif</th>
+            <th>stock</th>
+            <th>qte</th>
+            <th>Total Produit</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% set montantTotal = 0 %}
+        {% for id,ligneProduit in app.session.all.produits %}
+            {% set montantTotal = montantTotal+ligneProduit["produit"].prix %}
+            <tr>
+                <td>{{ ligneProduit["produit"].libelle }}</td>
+                <td>{{ ligneProduit["produit"].prix }}</td>
+                <td>{{ ligneProduit["produit"].quantiter }}</td>
+                <td>{{ ligneProduit["quantiter"] }}</td>
+                <td>{{ ligneProduit["produit"].prix * ligneProduit["quantiter"] }}</td>
+                <td>
+                    <form action="{{ path('AjoutLigneDuPagnier',{'id':id}) }}" method="post">
+                        <input type="hidden" name="token" value="{{ csrf_token("ajout-panier") }}">
+                        <input type="submit" value="+">
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Panier vide</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="5">Montant total</td>
+            <td>{{ montantTotal }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+
+<div id="bouton"></div>
+    <script>
+        paypal.Buttons({
+        createOrder: function (data, actions){
+            return actions.order.create({
+                purchase_units:[{
+                    amount:{
+                        value:{{ montantTotal }}
+                    }
+                }]
+            });
+        },
+        onApprove: function(data, actions) {
+        /*
+            return actions.order.capture().then(function(details) {
+                alert('la transaction à bien été effectué ' + details.payer.name.give_name);
+            })*/
+            document.location.href="http://192.168.1.2:8082/PPE_Vente/public/panier"
+        }
+    }).render("#bouton");
+    </script>
+
+{% endblock %}

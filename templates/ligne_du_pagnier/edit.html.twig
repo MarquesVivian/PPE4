@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit LigneDuPagnier{% endblock %}
+
+{% block body %}
+    <h1>Edit LigneDuPagnier</h1>
+
+    {{ include('ligne_du_pagnier/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('ligne_du_pagnier_index') }}">back to list</a>
+
+    {{ include('ligne_du_pagnier/_delete_form.html.twig') }}
+{% endblock %}

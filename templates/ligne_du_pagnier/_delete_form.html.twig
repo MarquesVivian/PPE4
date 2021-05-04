@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('ligne_du_pagnier_delete', {'id': ligne_du_pagnier.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ligne_du_pagnier.id) }}">
+    <button class="btn">Delete</button>
+</form>

@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LigneDuPagnier{% endblock %}
+
+{% block body %}
+    <h1>LigneDuPagnier</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ligne_du_pagnier.id }}</td>
+            </tr>
+            <tr>
+                <th>Quantiter</th>
+                <td>{{ ligne_du_pagnier.quantiter }}</td>
+            </tr>
+            <tr>
+                <th>Prix_unitaire</th>
+                <td>{{ ligne_du_pagnier.prixUnitaire }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('ligne_du_pagnier_index') }}">back to list</a>
+
+    <a href="{{ path('ligne_du_pagnier_edit', {'id': ligne_du_pagnier.id}) }}">edit</a>
+
+    {{ include('ligne_du_pagnier/_delete_form.html.twig') }}
+{% endblock %}
